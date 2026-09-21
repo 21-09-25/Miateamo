@@ -1,0 +1,178 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2a23 100%);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* CAJA DE REGALO Y ENVOLTORIO */
+.gift-wrapper {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2a23 100%);
+    z-index: 2000; transition: opacity 1.5s ease;
+}
+
+.gift-title {
+    font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #ffd700;
+    margin-bottom: 2rem; text-shadow: 0 0 15px rgba(255, 215, 0, 0.3); transition: opacity 0.5s;
+}
+
+.gift-and-flower {
+    position: relative; width: 200px; height: 300px; /* Espacio para que la flor crezca */
+    display: flex; justify-content: center; align-items: flex-end;
+}
+
+.gift-box {
+    position: absolute; bottom: 0; width: 160px; height: 140px; cursor: pointer;
+    animation: bounce 2s infinite ease-in-out; -webkit-tap-highlight-color: transparent; z-index: 10;
+}
+
+.gift-box:active { transform: scale(0.95); }
+
+.gift-body {
+    position: absolute; bottom: 0; width: 160px; height: 110px; background: #e74c3c;
+    border-radius: 8px; box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 15px 35px rgba(0,0,0,0.4);
+}
+.gift-body::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 30px; height: 100%; background: #f1c40f; }
+
+.gift-lid {
+    position: absolute; top: -20px; left: -10px; width: 180px; height: 40px; background: #c0392b;
+    border-radius: 6px; box-shadow: 0 8px 15px rgba(0,0,0,0.3); z-index: 2;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom left;
+}
+.gift-lid.open { transform: rotate(-120deg) translate(-40px, 10px); }
+.gift-lid::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 30px; height: 100%; background: #f39c12; }
+
+.bow { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 30px; }
+.bow::before, .bow::after { content: ''; position: absolute; width: 35px; height: 35px; border: 6px solid #f39c12; border-radius: 50%; }
+.bow::before { left: -15px; transform: rotate(-30deg); }
+.bow::after { right: -15px; transform: rotate(30deg); }
+
+.click-me {
+    margin-top: 30px; font-family: 'Dancing Script', cursive; color: #fff; font-size: 2rem;
+    animation: pulseText 1.5s infinite; transition: opacity 0.5s;
+}
+
+.continue-btn {
+    margin-top: 40px; padding: 12px 30px; background: #ffd700; color: #1a1a1a;
+    border: none; border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: 1.1rem;
+    font-weight: 600; cursor: pointer; opacity: 0; animation: fadeIn 1s forwards;
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4); text-transform: uppercase; letter-spacing: 1px;
+}
+
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pulseText { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.1); } }
+
+/* LA FLOR AMARILLA (CSS puro y ligero, solo 1 flor) */
+.flower {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%) scale(0.7);
+    transform-origin: bottom center; z-index: 1; /* Atrás de la caja, adelante del fondo */
+}
+
+.flower.animate { animation: moving-flower-1 4s linear infinite; }
+.flower.animate .flower__line { animation: grow-flower-tree 2s backwards; }
+.flower.animate .flower__leafs { animation: blooming-flower 1.5s backwards; animation-delay: 1.2s; }
+.flower.animate .flower__line__leaf--1 { animation: blooming-leaf-right 0.8s backwards; animation-delay: 1s; }
+.flower.animate .flower__line__leaf--2 { animation: blooming-leaf-right 0.8s backwards; animation-delay: 1.2s; }
+.flower.animate .flower__line__leaf--3 { animation: blooming-leaf-left 0.8s backwards; animation-delay: 1.4s; }
+.flower.animate .flower__line__leaf--4 { animation: blooming-leaf-left 0.8s backwards; animation-delay: 1.6s; }
+
+.flower__leafs { position: relative; }
+.flower__leafs::after { content: ""; position: absolute; left: 0; top: 0; transform: translate(-50%, -100%); width: 8vmin; height: 8vmin; background-color: #e7b201; filter: blur(10vmin); }
+
+.flower__leaf {
+    position: absolute; bottom: 0; left: 50%; width: 8vmin; height: 11vmin;
+    border-radius: 51% 49% 47% 53%/44% 45% 55% 69%; background-color: #e6f331;
+    background-image: linear-gradient(to top, #e6f331, #e6f331); transform-origin: bottom center;
+    opacity: 0.9; box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.5);
+}
+
+.flower__leaf--1 { transform: translate(-10%, 1%) rotateY(40deg) rotateX(-50deg); }
+.flower__leaf--2 { transform: translate(-50%, -4%) rotateX(40deg); }
+.flower__leaf--3 { transform: translate(-90%, 0%) rotateY(45deg) rotateX(50deg); }
+.flower__leaf--4 { width: 8vmin; height: 8vmin; transform-origin: bottom left; border-radius: 4vmin 10vmin 4vmin 4vmin; transform: translate(0%, 18%) rotateX(70deg) rotate(-43deg); z-index: 1; opacity: 0.8; }
+
+.flower__white-circle {
+    position: absolute; left: -3.5vmin; top: -3vmin; width: 9vmin; height: 4vmin;
+    border-radius: 50%; background-color: #fff;
+}
+.flower__white-circle::after {
+    content: ""; position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); width: 60%; height: 60%;
+    border-radius: inherit; background-image: linear-gradient(90deg, rgb(255, 235, 18), rgb(255, 206, 0));
+}
+
+.flower__line {
+    height: 35vmin; width: 1.5vmin;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent, rgba(255, 255, 255, 0.2)), linear-gradient(to top, transparent 10%, #056d24, #028137);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.flower__line__leaf {
+    --w: 7vmin; --h: calc(var(--w) + 2vmin); position: absolute; top: 20%; left: 90%;
+    width: var(--w); height: var(--h); border-top-right-radius: var(--h); border-bottom-left-radius: var(--h);
+    background-image: linear-gradient(to top, rgba(12, 94, 32, 0.4), #028137);
+}
+.flower__line__leaf--1 { transform: rotate(70deg) rotateY(30deg); }
+.flower__line__leaf--2 { top: 45%; transform: rotate(70deg) rotateY(30deg); }
+.flower__line__leaf--3, .flower__line__leaf--4 {
+    border-top-right-radius: 0; border-bottom-left-radius: 0; border-top-left-radius: var(--h); border-bottom-right-radius: var(--h);
+    left: -460%; top: 12%; transform: rotate(-70deg) rotateY(30deg);
+}
+.flower__line__leaf--4 { top: 40%; }
+
+@keyframes moving-flower-1 { 0%, 100% { transform: translateX(-50%) scale(0.7) rotate(2deg); } 50% { transform: translateX(-50%) scale(0.7) rotate(-2deg); } }
+@keyframes blooming-leaf-right { 0% { transform-origin: left; transform: rotate(70deg) rotateY(30deg) scale(0); } }
+@keyframes blooming-leaf-left { 0% { transform-origin: right; transform: rotate(-70deg) rotateY(30deg) scale(0); } }
+@keyframes grow-flower-tree { 0% { height: 0; border-radius: 1vmin; } }
+@keyframes blooming-flower { 0% { transform: scale(0); } }
+
+/* LLUVIA DE FLORES DE FONDO */
+#flower-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-flower {
+    position: absolute; width: 25px; height: 25px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M50 10C50 10 30 30 50 50C70 30 50 10 50 10Z"/><path fill="%23FFD700" d="M90 50C90 50 70 70 50 50C70 30 90 50 90 50Z"/><path fill="%23FFD700" d="M50 90C50 90 70 70 50 50C30 70 50 90 50 90Z"/><path fill="%23FFD700" d="M10 50C10 50 30 30 50 50C30 70 10 50 10 50Z"/><circle cx="50" cy="50" r="15" fill="%23FFA500"/></svg>') no-repeat center center;
+    background-size: contain; animation: fall linear infinite; opacity: 0;
+}
+@keyframes fall { 0% { transform: translateY(-100px) rotate(0deg); opacity: 0; } 10% { opacity: 0.85; } 80% { opacity: 0.85; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+/* CONTENIDO ANIVERSARIO */
+.hidden { display: none !important; }
+.anniversary-container { position: relative; z-index: 10; width: 100%; max-width: 900px; padding: 3rem 1rem; margin: 0 auto; animation: fadeIn 2s ease-out forwards; }
+.glass-panel {
+    background: rgba(45, 42, 35, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 223, 0, 0.2); border-radius: 24px; padding: 4rem 2.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37), inset 0 0 20px rgba(255, 215, 0, 0.05); text-align: center;
+}
+.title { font-family: 'Dancing Script', cursive; font-size: 4.5rem; color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); animation: pulseTitle 3s infinite; margin-bottom: 0.5rem; }
+.subtitle { font-size: 1.5rem; color: #f1e5ac; font-weight: 300; margin-bottom: 2rem; }
+.message-content {
+    font-size: 1.15rem; line-height: 1.8; color: #e0e0e0; margin-bottom: 3rem; text-align: left; background: rgba(0,0,0,0.2); padding: 2rem; border-radius: 16px; border-left: 4px solid #ffd700;
+}
+.message-content p { margin-bottom: 1rem; }
+.gallery-title { font-family: 'Dancing Script', cursive; font-size: 3rem; color: #ffdf00; margin-bottom: 2rem; }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2.5rem; }
+.photo-card {
+    background: #fff; padding: 12px 12px 30px 12px; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); cursor: pointer;
+    transform: rotate(calc(var(--rot, 0) * 1deg)); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+.photo-card:nth-child(1) { --rot: -4; } .photo-card:nth-child(2) { --rot: 3; } .photo-card:nth-child(3) { --rot: -2; } .photo-card:nth-child(4) { --rot: 5; }
+.photo-card:hover { transform: scale(1.08) rotate(0deg); box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3); z-index: 10; }
+.photo-card img { width: 100%; height: 300px; object-fit: cover; border-radius: 2px; }
+.photo-caption { font-family: 'Dancing Script', cursive; color: #222; font-size: 1.6rem; margin-top: 10px; }
+.navigation { margin-top: 4rem; }
+.nav-btn { display: inline-block; padding: 12px 35px; background: rgba(255, 215, 0, 0.1); color: #ffd700; text-decoration: none; border: 2px solid #ffd700; border-radius: 50px; font-weight: 500; transition: all 0.3s ease; text-transform: uppercase; }
+.nav-btn:hover { background: #ffd700; color: #1a1a1a; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); transform: translateY(-3px); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseTitle { 0%, 100% { text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); } 50% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.5); } }
+
+@media (max-width: 768px) {
+    .glass-panel { padding: 2rem 1.5rem; }
+    .title { font-size: 3.5rem; }
+    .photo-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
